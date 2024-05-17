@@ -1,0 +1,3 @@
+export const INVALID_FORMAT = "INVALID_FORMAT"
+
+export const ERROR_CODES = [INVALID_FORMAT]
