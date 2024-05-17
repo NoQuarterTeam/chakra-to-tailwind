@@ -29,6 +29,10 @@ Some extra notes:
 - The Image component can be replaced with Image imported from "next/image", and chakra related props can be replaced with tailwindcss classes.
 - If a component uses the "as" props, it can be replaced with the corresponding html tag.
 - When a component uses "%" values, they can be replaced with w-[value] or h-[value] classes, where value is a percentage like "70%"
+- If a Button has "colorScheme" props on it can usually be replaced with the "variant" prop.
+- Make sure all props on html elements are valid html attributes, for example:
+	- isExternal can be replaced with target="_blank" and rel="noopener noreferrer".
+	- textDecor should be added to the className prop.
 
 The following components can be imported from "@/components/ui":
 - Button
