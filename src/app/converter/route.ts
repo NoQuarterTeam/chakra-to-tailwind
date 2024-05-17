@@ -2,6 +2,8 @@ import { openai } from "@ai-sdk/openai"
 import { StreamingTextResponse, streamText } from "ai"
 import { system } from "./system-prompt"
 
+export const maxDuration = 300
+
 export async function POST(req: Request) {
   const { prompt }: { prompt: string } = await req.json()
 
