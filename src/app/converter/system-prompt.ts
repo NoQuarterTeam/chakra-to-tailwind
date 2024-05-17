@@ -34,6 +34,7 @@ Some extra notes:
 - Make sure all props on html elements are valid html attributes, for example:
 	- isExternal can be replaced with target="_blank" and rel="noopener noreferrer".
 	- textDecor should be added to the className prop.
+- If a p tag just applies a bold style, you can use a <b> tag instead, same for italics.
 
 The following components can be imported from "@/components/ui":
 - Button
