@@ -12,7 +12,7 @@ import { toast } from "sonner"
 export const maxDuration = 300
 
 export default function Page() {
-  const [state, setState] = React.useState<"init" | "editing" | "complete" | "error">("init")
+  const [state, setState] = React.useState<"init" | "editing" | "complete">("init")
 
   const { completion, stop, isLoading, input, handleInputChange, handleSubmit } = useCompletion({
     api: "/converter",
