@@ -27,11 +27,9 @@ Some extra notes:
 - The Text component can be replaced with p tag.
 - The Link component can be replaced with Link imported from "next/link", and chakra related props can be replaced with tailwindcss classes.
 - The Image component can be replaced with Image imported from "next/image", and chakra related props can be replaced with tailwindcss classes.
-	- When there is a width or height prop on chakra, add this to the classes too, however the next Image component also requires these props to leave them. 
-		- For example: 
-			<Image objectFit="contain" w="100%" maxW="450px" alt="..." src="..." />
-			would become:
-			<Image width={450} height={300} alt="..." src="..." className="w-full max-w-[450px] object-contain" />
+	- When there is a width or height prop on chakra, add this to the classes too, however the next Image component also requires these props to leave them. For example: 
+		<Image objectFit="contain" w="100%" maxW="450px" alt="..." src="..." />, would become:
+		<Image width={450} height={300} alt="..." src="..." className="w-full max-w-[450px] object-contain" />
 		- If no height provided, you can use roughly 3/4 of the width as the height.
 - If a component uses the "as" props, it can be replaced with the corresponding html tag.
 - When a component uses "%" values, they can be replaced with w-[value] or h-[value] classes, where value is a percentage like "70%"
@@ -39,7 +37,7 @@ Some extra notes:
 - Make sure all props on html elements are valid html attributes, for example:
 	- isExternal can be replaced with target="_blank" and rel="noopener noreferrer".
 	- textDecor should be added to the className prop.
-- If a p tag just applies a bold style, you can use a <b> tag instead, same for italics.
+- If a p tag or a span just applies a bold style, you can use a <b> tag instead, same for italics.
 - Make sure divs don't appear inside a p tag. 
 
 The following components can be imported from "@/components/ui":
