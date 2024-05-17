@@ -45,6 +45,7 @@ The following components can be imported from "@/components/ui":
 - Button
 - IconButton
 - Input
+- Avatar
 - Textarea
 - Select
 - Checkbox
