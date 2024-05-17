@@ -92,7 +92,7 @@ interface Props {
   code: string
 }
 
-export function Code(props: Props) {
+function Code(props: Props) {
   return (
     <Highlight theme={themes.oneLight} code={props.code} language="tsx">
       {({ tokens, getLineProps, getTokenProps }) => (
