@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { useCopyToClipboard } from "@/lib/hooks/use-clipboard"
 import { useCompletion } from "ai/react"
 import { Loader2, Stars } from "lucide-react"
 import Link from "next/link"
@@ -8,15 +9,24 @@ import { Highlight, themes } from "prism-react-renderer"
 import * as React from "react"
 import { toast } from "sonner"
 
+export const maxDuration = 300
+
 export default function Page() {
-  const [isEditing, setIsEditing] = React.useState(false)
+  const [state, setState] = React.useState<"init" | "editing" | "complete" | "error">("init")
+
   const { completion, stop, isLoading, input, handleInputChange, handleSubmit } = useCompletion({
     api: "/converter",
+    onError: () => {
+      setState("init")
+      toast.error("Conversion failed")
+    },
     onFinish: () => {
-      setIsEditing(false)
+      setState("complete")
       toast.success("Conversion complete")
     },
   })
+
+  const [_, copy] = useCopyToClipboard()
 
   return (
     <form onSubmit={handleSubmit} className="h-screen">
@@ -30,11 +40,20 @@ export default function Page() {
         <div className="pl-6 pr-2 flex items-center justify-between">
           <p className="text-sm opacity-70">Original</p>
           <div className="flex items-center space-x-2">
-            {input && (
-              <Button type="button" variant="outline" onClick={() => setIsEditing((e) => !e)} size="sm">
-                {isEditing ? "Done" : "Edit"}
+            {!!input && (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isLoading}
+                onClick={() => {
+                  setState((s) => (s === "editing" ? "init" : "editing"))
+                }}
+                size="sm"
+              >
+                {state === "editing" ? "Done" : "Edit"}
               </Button>
             )}
+
             {isLoading ? (
               <Button
                 className="w-[100px]"
@@ -49,7 +68,7 @@ export default function Page() {
                 <Loader2 size={16} className="animate-spin ml-2" />
               </Button>
             ) : (
-              <Button className="w-[100px]" size="sm" type="submit" disabled={!input || isEditing || isLoading}>
+              <Button className="w-[100px]" size="sm" type="submit" disabled={state === "editing"}>
                 Convert
                 <Stars size={12} className="ml-2" />
               </Button>
@@ -58,11 +77,23 @@ export default function Page() {
         </div>
         <div className="px-6 flex items-center justify-between">
           <p className="text-sm opacity-70">Generated</p>
+          {state === "complete" && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                copy(completion).then(() => toast.success("Copied!"))
+              }}
+            >
+              Copy
+            </Button>
+          )}
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-x md:divide-y-0 bg-muted divide-border h-[calc(100svh-theme(spacing.nav)-theme(spacing.12))]">
         <div className="relative h-full flex flex-col overflow-scroll">
-          {input && !isEditing ? (
+          {input && state !== "editing" ? (
             <Code code={input} />
           ) : (
             <textarea
@@ -73,10 +104,7 @@ export default function Page() {
               placeholder="Paste code snippet here"
               value={input}
               className="bg-transparent text-sm w-full flex-1 outline-0 border-none focus:ring-0 p-6 focus:border-0 resize-none"
-              onChange={(e) => {
-                handleInputChange(e)
-                if (!e.target.value) setIsEditing(false)
-              }}
+              onChange={handleInputChange}
             />
           )}
         </div>
