@@ -35,6 +35,7 @@ Some extra notes:
 	- isExternal can be replaced with target="_blank" and rel="noopener noreferrer".
 	- textDecor should be added to the className prop.
 - If a p tag just applies a bold style, you can use a <b> tag instead, same for italics.
+- Make sure divs don't appear inside a p tag. 
 
 The following components can be imported from "@/components/ui":
 - Button
