@@ -56,7 +56,6 @@ export default function Page() {
 
             {isLoading ? (
               <Button
-                className="w-[100px]"
                 size="sm"
                 onClick={(e) => {
                   e.preventDefault()
@@ -64,13 +63,15 @@ export default function Page() {
                 }}
                 type="button"
               >
-                Cancel
-                <Loader2 size={16} className="animate-spin ml-2" />
+                <span className="mr-2 w-[64px]">Cancel</span>
+
+                <Loader2 size={14} className="animate-spin" />
               </Button>
             ) : (
-              <Button className="w-[100px]" size="sm" type="submit" disabled={state === "editing" || !input}>
-                Convert
-                <Stars size={12} className="ml-2" />
+              <Button size="sm" type="submit" disabled={state === "editing" || !input}>
+                <span className="mr-2 w-[64px]">Convert</span>
+
+                <Stars size={14} />
               </Button>
             )}
           </div>
