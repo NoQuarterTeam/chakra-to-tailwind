@@ -13,12 +13,12 @@ import { ERROR_CODES, INVALID_FORMAT } from "./converter/error-codes"
 export const maxDuration = 300
 
 export default function Page() {
-  const [state, setState] = React.useState<"init" | "editing" | "complete">("init")
+  const [state, setState] = React.useState<"editing" | "ready" | "complete">("editing")
 
   const { completion, stop, isLoading, setCompletion, input, handleInputChange, handleSubmit } = useCompletion({
     api: "/converter",
     onError: (error) => {
-      setState("init")
+      setState("ready")
       toast.error("Conversion failed", { description: error.message })
     },
     onFinish: (_, comp) => {
@@ -56,7 +56,7 @@ export default function Page() {
                 variant="outline"
                 disabled={isLoading}
                 onClick={() => {
-                  setState((s) => (s === "editing" ? "init" : "editing"))
+                  setState((s) => (s === "editing" ? "ready" : "editing"))
                 }}
                 size="sm"
               >
@@ -105,9 +105,7 @@ export default function Page() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-x md:divide-y-0 bg-muted divide-border h-[calc(100svh-theme(spacing.nav)-theme(spacing.12))]">
         <div className="relative h-full flex flex-col overflow-scroll">
-          {input && state !== "editing" ? (
-            <Code code={input} />
-          ) : (
+          {state === "editing" ? (
             <textarea
               name="prompt"
               // biome-ignore lint/a11y/noAutofocus: we need it
@@ -115,12 +113,21 @@ export default function Page() {
               id="prompt"
               placeholder="Paste code snippet here"
               value={input}
+              onPaste={(e) => {
+                e.persist()
+                setTimeout(() => {
+                  // hack to auto move to ready
+                  setState("ready")
+                }, 10)
+              }}
               className="bg-transparent text-sm w-full flex-1 outline-0 border-none focus:ring-0 p-6 focus:border-0 resize-none"
               onChange={(e) => {
                 handleInputChange(e)
                 if (ERROR_CODES.includes(completion)) setCompletion("")
               }}
             />
+          ) : (
+            <Code code={input} />
           )}
         </div>
         <div className="h-full flex flex-col overflow-scroll">
