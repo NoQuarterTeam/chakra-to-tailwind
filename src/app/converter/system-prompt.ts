@@ -27,6 +27,7 @@ Some extra notes:
 - The Text component can be replaced with p tag.
 - The Link component can be replaced with Link imported from "next/link", and chakra related props can be replaced with tailwindcss classes.
 - The Image component can be replaced with Image imported from "next/image", and chakra related props can be replaced with tailwindcss classes.
+	- When there is a width or height prop on chakra, add this to the classes too, however the next Image component also requires these props to leave them. 
 - If a component uses the "as" props, it can be replaced with the corresponding html tag.
 - When a component uses "%" values, they can be replaced with w-[value] or h-[value] classes, where value is a percentage like "70%"
 - If a Button has "colorScheme" props on it can usually be replaced with the "variant" prop.
