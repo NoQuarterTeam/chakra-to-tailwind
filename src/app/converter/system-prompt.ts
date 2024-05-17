@@ -46,5 +46,6 @@ The following components can be imported from "@/components/ui":
 - Checkbox
 - Radio
 - Switch
+- Accordion
 
 Respond with pure text, no code blocks or code formatting.`
