@@ -40,6 +40,7 @@ Some extra notes:
 - If a p tag or a span just applies a bold style, you can use a <b> tag instead, same for italics, for example:
 		<span className="font-bold"> and <p className="font-bold"> would just become <b>, and <span className="italic"> would just become <i>.
 - Make sure divs don't appear inside a p tag. 
+- The prop borderRadius="full" can be replaced with a rounded-full className.
 
 The following components can be imported from "@/components/ui":
 - Button
