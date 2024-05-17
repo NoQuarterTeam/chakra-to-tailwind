@@ -17,7 +17,7 @@ const config = {
     },
     extend: {
       spacing: {
-        nav: "60px",
+        nav: "50px",
       },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
