@@ -68,7 +68,7 @@ export default function Page() {
                 <Loader2 size={16} className="animate-spin ml-2" />
               </Button>
             ) : (
-              <Button className="w-[100px]" size="sm" type="submit" disabled={state === "editing"}>
+              <Button className="w-[100px]" size="sm" type="submit" disabled={state === "editing" || !input}>
                 Convert
                 <Stars size={12} className="ml-2" />
               </Button>
