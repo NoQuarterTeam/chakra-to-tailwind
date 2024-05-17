@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { useCompletion } from "ai/react"
 import { Loader2, Stars } from "lucide-react"
+import Link from "next/link"
 import { Highlight, themes } from "prism-react-renderer"
 import * as React from "react"
 import { toast } from "sonner"
@@ -21,7 +22,9 @@ export default function Page() {
     <form onSubmit={handleSubmit} className="h-screen">
       <div className="flex justify-between items-center w-full border-b gap-4 h-nav px-6">
         <h1 className="text-lg">Chakra to Tailwind</h1>
-        <p>By No Quarter</p>
+        <Link href="https://www.noquarter.co" target="_blank" rel="noreferrer noopener" className="hover:underline">
+          By No Quarter
+        </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 divide-y border-b md:divide-x md:divide-y-0 bg-background divide-border h-12">
         <div className="pl-6 pr-2 flex items-center justify-between">
