@@ -83,7 +83,9 @@ export default function Page() {
               variant="outline"
               size="sm"
               onClick={() => {
-                copy(completion).then(() => toast.success("Copied!"))
+                copy(completion)
+                  .then(() => toast.success("Copied!"))
+                  .catch(() => toast.error("Failed to copy"))
               }}
             >
               Copy
