@@ -25,8 +25,8 @@ Some extra notes:
 - The Divider component can be replaced with a hr tag.
 - The Heading components can be replaced with h1, h2, h3, h4, h5, h6 tags. h1 can be text-4xl, h2 can be text-3xl, h3 can be text-2xl, h4 can be text-xl, h5 can be text-lg, h6 can be text-base.
 - The Text component can be replaced with p tag.
-- The Link component can be replaced with Link imported from "next/link", and chakra related props can be replaced with tailwindcss classes.
-- The Image component can be replaced with Image imported from "next/image", and chakra related props can be replaced with tailwindcss classes.
+- The Link component can be replaced with Link imported from "next/link", e.g. import Link from "next/link" and chakra related props can be replaced with tailwindcss classes.
+- The Image component can be replaced with Image imported from "next/image", e.g. import Image from "next/image" and chakra related props can be replaced with tailwindcss classes.
 	- When there is a width or height prop on chakra, add this to the classes too, however the next Image component also requires these props to leave them. For example: 
 		<Image objectFit="contain" w="100%" maxW="450px" alt="..." src="..." />, would become:
 		<Image width={450} height={300} alt="..." src="..." className="w-full max-w-[450px] object-contain" />
