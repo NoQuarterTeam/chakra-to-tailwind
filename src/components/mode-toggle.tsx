@@ -1,5 +1,6 @@
 "use client"
 
+import { cn } from "@/lib/utils"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import * as React from "react"
@@ -7,8 +8,7 @@ import { Button } from "./ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
 export function ModeToggle() {
-  const { setTheme } = useTheme()
-
+  const { theme, setTheme } = useTheme()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -19,9 +19,24 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
+        <DropdownMenuItem
+          className={cn("cursor-pointer", theme === "light" ? "font-bold" : "font-light")}
+          onClick={() => setTheme("light")}
+        >
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className={cn("cursor-pointer", theme === "dark" ? "font-bold" : "font-light")}
+          onClick={() => setTheme("dark")}
+        >
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className={cn("cursor-pointer", theme === "system" ? "font-bold" : "font-light")}
+          onClick={() => setTheme("system")}
+        >
+          System
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
