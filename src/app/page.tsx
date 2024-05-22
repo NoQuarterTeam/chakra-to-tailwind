@@ -1,10 +1,6 @@
 "use client"
-
-import { ClientOnly } from "@/components/ClientOnly"
-
-import { Button } from "@/components/ui/button"
-
 import { ModeToggle } from "@/components/mode-toggle"
+import { Button } from "@/components/ui/button"
 import { useCopyToClipboard } from "@/lib/hooks/use-clipboard"
 import { useCompletion } from "ai/react"
 import { Loader2, Stars } from "lucide-react"
@@ -12,7 +8,7 @@ import Link from "next/link"
 import { Highlight, themes } from "prism-react-renderer"
 import * as React from "react"
 import { toast } from "sonner"
-import { ERROR_CODES, INVALID_FORMAT } from "./converter/error-codes"
+import { ERROR_CODES } from "./converter/error-codes"
 
 export const maxDuration = 300
 
