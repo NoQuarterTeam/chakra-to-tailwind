@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useCopyToClipboard } from "@/lib/hooks/use-clipboard"
 import { useCompletion } from "ai/react"
 import { Loader2, Stars } from "lucide-react"
+import { useTheme } from "next-themes"
 import Link from "next/link"
 import { Highlight, themes } from "prism-react-renderer"
 import * as React from "react"
@@ -146,8 +147,9 @@ interface Props {
 }
 
 function Code(props: Props) {
+  const { theme } = useTheme()
   return (
-    <Highlight theme={themes.oneLight} code={props.code} language="tsx">
+    <Highlight theme={theme === "dark" ? themes.oneDark : themes.oneLight} code={props.code} language="tsx">
       {({ tokens, getLineProps, getTokenProps }) => (
         <pre className="flex-1 text-sm p-6">
           {tokens.map((line, i) => (
