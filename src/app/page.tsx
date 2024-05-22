@@ -1,6 +1,10 @@
 "use client"
 
+import { ClientOnly } from "@/components/ClientOnly"
+
 import { Button } from "@/components/ui/button"
+
+import { ModeToggle } from "@/components/mode-toggle"
 import { useCopyToClipboard } from "@/lib/hooks/use-clipboard"
 import { useCompletion } from "ai/react"
 import { Loader2, Stars } from "lucide-react"
@@ -37,14 +41,17 @@ export default function Page() {
   })
 
   const [_, copy] = useCopyToClipboard()
-
   return (
     <form onSubmit={handleSubmit} className="h-screen">
       <div className="flex justify-between items-center w-full border-b gap-4 h-nav px-6">
-        <h1 className="font-semibold">Chakra to Tailwind</h1>
-        <Link href="https://www.noquarter.co" target="_blank" rel="noreferrer noopener" className="hover:underline">
-          By No Quarter
-        </Link>
+        <div className="space-x-2 flex items-center">
+          <h1 className="font-semibold">Chakra to Tailwind</h1>
+          <Link href="https://www.noquarter.co" target="_blank" rel="noreferrer noopener" className="hover:underline text-sm">
+            By No Quarter
+          </Link>
+        </div>
+
+        <ModeToggle />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 divide-y border-b md:divide-x md:divide-y-0 bg-background divide-border h-12">
         <div className="pl-6 pr-2 flex items-center justify-between">

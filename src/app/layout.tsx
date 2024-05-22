@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { ThemeProvider } from "next-themes"
 import { Roboto_Mono as FontSans } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "sonner"
@@ -14,8 +15,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={fontSans.className}>
-        {children}
-        <Toaster />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )
