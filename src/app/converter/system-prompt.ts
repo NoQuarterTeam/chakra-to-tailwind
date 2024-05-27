@@ -41,7 +41,7 @@ Some extra notes:
 		<span className="font-bold"> and <p className="font-bold"> would just become <b>, and <span className="italic"> would just become <i>.
 - Make sure divs don't appear inside a p tag. 
 - The prop borderRadius="full" can be replaced with a rounded-full className.
-- When replaceing the HStack component make sure to apply a space-x-2 class to the div, unless a spacing prop is provided then use that value in the space-x-[value] class.
+- When replaceing the HStack component make sure to apply flex, items-center and space-x-2 class to the div, unless a spacing prop is provided then use that value in the space-x-[value] class.
 
 The following components can be imported from "@/components/ui":
 - Button
