@@ -1,6 +1,7 @@
 "use client"
 import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { useCopyToClipboard } from "@/lib/hooks/use-clipboard"
 import { useCompletion } from "ai/react"
 import { Loader2, Stars } from "lucide-react"
@@ -15,9 +16,10 @@ export const maxDuration = 300
 
 export default function Page() {
   const [state, setState] = React.useState<"editing" | "ready" | "complete">("editing")
-
+  const [info, setInfo] = React.useState("")
   const { completion, stop, isLoading, setCompletion, input, handleInputChange, handleSubmit } = useCompletion({
     api: "/converter",
+    body: { info },
     onError: (error) => {
       setState("ready")
       toast.error("Conversion failed", { description: error.message })
@@ -54,6 +56,13 @@ export default function Page() {
         <div className="pl-6 pr-2 flex items-center justify-between">
           <p className="text-sm">Input</p>
           <div className="flex items-center space-x-2">
+            <Input
+              maxLength={1000}
+              placeholder="Extra info"
+              value={info}
+              className="h-9"
+              onChange={(e) => setInfo(e.target.value)}
+            />
             {!!input && (
               <Button
                 type="button"
