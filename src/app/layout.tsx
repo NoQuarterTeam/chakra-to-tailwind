@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import { ThemeProvider } from "next-themes"
 import { Roboto_Mono as FontSans } from "next/font/google"
 import "./globals.css"
+import { Analytics } from "@vercel/analytics/react"
 import { Toaster } from "sonner"
-
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" })
 
 export const metadata: Metadata = {
@@ -19,6 +19,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
           <Toaster />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
