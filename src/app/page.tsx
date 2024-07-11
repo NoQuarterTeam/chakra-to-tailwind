@@ -99,7 +99,7 @@ export default function Page() {
           </div>
         </div>
         <div className="px-6 flex items-center justify-between">
-          <p className="text-sm">Generated</p>
+          <p className="text-sm">Output</p>
           {state === "complete" && !ERROR_CODES.includes(completion) && (
             <Button
               type="button"
