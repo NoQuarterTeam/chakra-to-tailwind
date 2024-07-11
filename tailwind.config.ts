@@ -19,6 +19,7 @@ const config = {
       spacing: {
         nav: "50px",
       },
+
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },

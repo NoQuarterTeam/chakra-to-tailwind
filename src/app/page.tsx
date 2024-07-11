@@ -3,6 +3,12 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useCopyToClipboard } from "@/lib/hooks/use-clipboard"
+import { cn } from "@/lib/utils"
+import { javascript } from "@codemirror/lang-javascript"
+import { duotoneDark, duotoneLight } from "@uiw/codemirror-theme-duotone"
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github"
+// import { vscodeDark, vscodeLight } from "@uiw/codemirror-theme-vscode"
+import CodeMirror, { type ReactCodeMirrorProps } from "@uiw/react-codemirror"
 import { useCompletion } from "ai/react"
 import { Loader2, Stars } from "lucide-react"
 import { useTheme } from "next-themes"
@@ -15,9 +21,9 @@ import { ERROR_CODES } from "./converter/error-codes"
 export const maxDuration = 300
 
 export default function Page() {
-  const [state, setState] = React.useState<"editing" | "ready" | "complete">("editing")
+  const [state, setState] = React.useState<"ready" | "complete">("ready")
   const [info, setInfo] = React.useState("")
-  const { completion, stop, isLoading, setCompletion, input, handleInputChange, handleSubmit } = useCompletion({
+  const { completion, stop, isLoading, input, setInput, handleSubmit } = useCompletion({
     api: "/converter",
     body: { info },
     onError: (error) => {
@@ -40,6 +46,7 @@ export default function Page() {
   })
 
   const [_, copy] = useCopyToClipboard()
+
   return (
     <form onSubmit={handleSubmit} className="h-screen">
       <div className="flex justify-between items-center w-full border-b gap-4 h-nav px-6">
@@ -63,19 +70,6 @@ export default function Page() {
               className="h-9"
               onChange={(e) => setInfo(e.target.value)}
             />
-            {!!input && (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={isLoading}
-                onClick={() => {
-                  setState((s) => (s === "editing" ? "ready" : "editing"))
-                }}
-                size="sm"
-              >
-                {state === "editing" ? "Done" : "Edit"}
-              </Button>
-            )}
 
             {isLoading ? (
               <Button
@@ -91,7 +85,7 @@ export default function Page() {
                 <Loader2 size={14} className="animate-spin" />
               </Button>
             ) : (
-              <Button size="sm" type="submit" disabled={state === "editing" || !input || ERROR_CODES.includes(completion)}>
+              <Button size="sm" type="submit" disabled={!input || ERROR_CODES.includes(completion)}>
                 <span className="mr-2 w-[64px]">Convert</span>
                 <Stars size={14} />
               </Button>
@@ -118,33 +112,10 @@ export default function Page() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-x md:divide-y-0 bg-muted divide-border h-[calc(100svh-theme(spacing.nav)-theme(spacing.12))]">
         <div className="relative h-full flex flex-col overflow-scroll">
-          {state === "editing" ? (
-            <textarea
-              name="prompt"
-              // biome-ignore lint/a11y/noAutofocus: we need it
-              autoFocus
-              id="prompt"
-              placeholder="Paste code snippet here"
-              value={input}
-              onPaste={(e) => {
-                e.persist()
-                setTimeout(() => {
-                  // hack to auto move to ready
-                  setState("ready")
-                }, 10)
-              }}
-              className="bg-transparent text-sm w-full flex-1 outline-0 border-none focus:ring-0 p-6 focus:border-0 resize-none"
-              onChange={(e) => {
-                handleInputChange(e)
-                if (ERROR_CODES.includes(completion)) setCompletion("")
-              }}
-            />
-          ) : (
-            <Code code={input} />
-          )}
+          <CodeInput value={input} onChange={setInput} />
         </div>
         <div className="h-full flex flex-col overflow-scroll">
-          {ERROR_CODES.includes(completion) ? null : <Code code={completion || ""} />}
+          {ERROR_CODES.includes(completion) ? null : <Code code={completion} />}
         </div>
       </div>
     </form>
@@ -160,7 +131,7 @@ function Code(props: Props) {
   return (
     <Highlight theme={theme === "dark" ? themes.oneDark : themes.oneLight} code={props.code} language="tsx">
       {({ tokens, getLineProps, getTokenProps }) => (
-        <pre className="flex-1 text-sm p-6">
+        <pre className="flex-1 text-sm p-1">
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({ line })}>
               {line.map((token, key) => (
@@ -173,3 +144,28 @@ function Code(props: Props) {
     </Highlight>
   )
 }
+
+const CodeInput = React.memo(function _CodeInput(props: ReactCodeMirrorProps) {
+  const { theme } = useTheme()
+  return (
+    <CodeMirror
+      height="100%"
+      width="100%"
+      placeholder="Paste code snippet here"
+      {...props}
+      className={cn(
+        "overflow-hidden text-sm h-full  [&_.cm-gutter]:w-6 [&_.cm-gutter]:text-black dark:[&_.cm-gutter]:text-white [&_.cm-gutterElement]:flex [&_.cm-gutterElement]:items-center [&_.cm-gutterElement]:justify-end [&_.cm-gutterElement]:text-xs",
+        props.className,
+      )}
+      basicSetup={{
+        ...(typeof props.basicSetup !== "boolean" && props?.basicSetup),
+        foldGutter: false,
+        highlightActiveLine: false,
+        highlightActiveLineGutter: false,
+        allowMultipleSelections: true,
+      }}
+      theme={theme === "dark" ? githubDark : githubLight}
+      extensions={[javascript({ jsx: true, typescript: true })]}
+    />
+  )
+})
