@@ -1,22 +1,25 @@
 "use client"
-
+import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { useCopyToClipboard } from "@/lib/hooks/use-clipboard"
 import { useCompletion } from "ai/react"
 import { Loader2, Stars } from "lucide-react"
+import { useTheme } from "next-themes"
 import Link from "next/link"
 import { Highlight, themes } from "prism-react-renderer"
 import * as React from "react"
 import { toast } from "sonner"
-import { ERROR_CODES, INVALID_FORMAT } from "./converter/error-codes"
+import { ERROR_CODES } from "./converter/error-codes"
 
 export const maxDuration = 300
 
 export default function Page() {
   const [state, setState] = React.useState<"editing" | "ready" | "complete">("editing")
-
+  const [info, setInfo] = React.useState("")
   const { completion, stop, isLoading, setCompletion, input, handleInputChange, handleSubmit } = useCompletion({
     api: "/converter",
+    body: { info },
     onError: (error) => {
       setState("ready")
       toast.error("Conversion failed", { description: error.message })
@@ -37,19 +40,29 @@ export default function Page() {
   })
 
   const [_, copy] = useCopyToClipboard()
-
   return (
     <form onSubmit={handleSubmit} className="h-screen">
       <div className="flex justify-between items-center w-full border-b gap-4 h-nav px-6">
-        <h1 className="font-semibold">Chakra to Tailwind</h1>
-        <Link href="https://www.noquarter.co" target="_blank" rel="noreferrer noopener" className="hover:underline">
-          By No Quarter
-        </Link>
+        <div className="space-x-2 flex items-center">
+          <h1 className="font-semibold">Chakra to Tailwind</h1>
+          <Link href="https://www.noquarter.co" target="_blank" rel="noreferrer noopener" className="hover:underline text-sm">
+            By No Quarter
+          </Link>
+        </div>
+
+        <ModeToggle />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 divide-y border-b md:divide-x md:divide-y-0 bg-background divide-border h-12">
         <div className="pl-6 pr-2 flex items-center justify-between">
           <p className="text-sm">Input</p>
           <div className="flex items-center space-x-2">
+            <Input
+              maxLength={1000}
+              placeholder="Extra info"
+              value={info}
+              className="h-9"
+              onChange={(e) => setInfo(e.target.value)}
+            />
             {!!input && (
               <Button
                 type="button"
@@ -86,7 +99,7 @@ export default function Page() {
           </div>
         </div>
         <div className="px-6 flex items-center justify-between">
-          <p className="text-sm">Generated</p>
+          <p className="text-sm">Output</p>
           {state === "complete" && !ERROR_CODES.includes(completion) && (
             <Button
               type="button"
@@ -143,8 +156,9 @@ interface Props {
 }
 
 function Code(props: Props) {
+  const { theme } = useTheme()
   return (
-    <Highlight theme={themes.oneLight} code={props.code} language="tsx">
+    <Highlight theme={theme === "dark" ? themes.oneDark : themes.oneLight} code={props.code} language="tsx">
       {({ tokens, getLineProps, getTokenProps }) => (
         <pre className="flex-1 text-sm p-6">
           {tokens.map((line, i) => (
