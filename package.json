@@ -17,7 +17,7 @@
     "@uiw/codemirror-theme-github": "4.23.0",
     "@uiw/react-codemirror": "4.23.0",
     "@upstash/ratelimit": "1.2.1",
-    "@upstash/redis": "1.32.0",
+    "@upstash/redis": "1.33.0",
     "ai": "3.2.25",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
