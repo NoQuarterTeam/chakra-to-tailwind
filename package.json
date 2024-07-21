@@ -16,7 +16,7 @@
     "@radix-ui/react-slot": "1.1.0",
     "@uiw/codemirror-theme-github": "4.23.0",
     "@uiw/react-codemirror": "4.23.0",
-    "@upstash/ratelimit": "1.2.1",
+    "@upstash/ratelimit": "2.0.1",
     "@upstash/redis": "1.33.0",
     "ai": "3.2.32",
     "class-variance-authority": "0.7.0",
